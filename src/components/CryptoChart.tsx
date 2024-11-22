@@ -6,6 +6,8 @@ import {
   PointElement,
   LineElement,
   Tooltip,
+  Legend,
+  Title,
   ChartOptions,
 } from "chart.js";
 
@@ -14,7 +16,9 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  Tooltip
+  Tooltip,
+  Legend,
+  Title
 );
 
 const CryptoChart = ({ data }: { data: any }) => {
@@ -37,10 +41,18 @@ const CryptoChart = ({ data }: { data: any }) => {
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          font: {
+            size: 8,
+          },
+        },
       },
       title: {
         display: true,
-        text: "Chart.js Line Chart",
+        text: "Closing Prices Over Time",
+        font: {
+          size: 8,
+        },
       },
     },
     layout: {
