@@ -10,12 +10,22 @@ const CurrencySelector = () => {
   };
 
   return (
-    <select onChange={handleCurrencySelect}>
-      <option value="BTCUSDT">BTC/USDT</option>
-      <option value="ETHUSDT">ETH/USDT</option>
-      <option value="LTCUSDT">LTC/USDT</option>
-      <option value="XRPUSDT">XRP/USDT</option>
-    </select>
+    <>
+      <div>
+        <label
+          htmlFor="currency"
+          className="block text-sm/6 font-medium text-gray-900"
+        >
+          Select Coin
+        </label>
+        <select onChange={handleCurrencySelect}>
+          <option value="BTCUSDT">BTC/USDT</option>
+          <option value="ETHUSDT">ETH/USDT</option>
+          <option value="LTCUSDT">LTC/USDT</option>
+          <option value="XRPUSDT">XRP/USDT</option>
+        </select>
+      </div>
+    </>
   );
 };
 

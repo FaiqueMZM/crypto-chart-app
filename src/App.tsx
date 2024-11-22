@@ -15,6 +15,7 @@ const App = () => {
   const [chartData, setChartData] = useState([]);
 
   const fetchData = async (start: string, end: string) => {
+    if (!start || !end) return; // Avoid fetching with incomplete data
     const data = await fetchKlineData(
       currencyPair,
       "1d",
@@ -29,7 +30,7 @@ const App = () => {
     <>
       <div className="p-5 max-w-3xl mx-auto ">
         <div className="p-4">
-          <h1 className="text-2xl mb5 text-center">
+          <h1 className="mb-5 text-2xl mb5 text-center">
             Crypto Currency Price Chart
           </h1>
           <div className="justify-between flex flex-wrap mb-5">

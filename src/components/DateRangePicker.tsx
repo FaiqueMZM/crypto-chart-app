@@ -1,24 +1,44 @@
 import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const DateRangePicker = ({
   onChange,
 }: {
   onChange: (start: string, end: string) => void;
 }) => {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 
-  const handleApply = () => {
-    onChange(startDate, endDate);
+  const handleDateChange = (dates: [Date | null, Date | null]) => {
+    const [start, end] = dates;
+    setStartDate(start ?? undefined);
+    setEndDate(end ?? undefined);
+
+    if (start && end) {
+      onChange(
+        start.toISOString().split("T")[0],
+        end.toISOString().split("T")[0]
+      );
+    }
   };
 
   return (
-    <div className="flex space-x-2">
-      <input type="date" onChange={(e) => setStartDate(e.target.value)} />
-      <input type="date" onChange={(e) => setEndDate(e.target.value)} />
-      <button onClick={handleApply} className="p-2 bg-blue-500 text-white">
-        Apply
-      </button>
+    <div>
+      <label
+        htmlFor="currency"
+        className="block text-sm/6 font-medium text-gray-900"
+      >
+        Select Date
+      </label>
+      <DatePicker
+        selected={startDate}
+        onChange={handleDateChange}
+        startDate={startDate}
+        endDate={endDate}
+        selectsRange
+        inline
+      />
     </div>
   );
 };
