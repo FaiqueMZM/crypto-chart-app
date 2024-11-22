@@ -17,21 +17,14 @@ const App = () => {
   const [startDate, setStartDate] = useState<string | null>(null);
   const [endDate, setEndDate] = useState<string | null>(null);
 
-  // Fetch data based on currency and date range (or recent data if dates not set)
-  const fetchData = async (start: string | null, end: string | null) => {
-    let startTimestamp = start
-      ? toTimestamp(start)
-      : toTimestamp(formatISO(subDays(new Date(), 30)));
-    let endTimestamp = end
-      ? toTimestamp(end)
-      : toTimestamp(new Date().toISOString());
-
+  // Fetch data based on currency and date range
+  const fetchData = async (start: string, end: string) => {
     try {
       const data = await fetchKlineData(
         currencyPair,
         "1d",
-        startTimestamp,
-        endTimestamp
+        toTimestamp(start),
+        toTimestamp(end)
       );
       setChartData(data);
       dispatch(setData(data));
@@ -40,10 +33,22 @@ const App = () => {
     }
   };
 
-  // Trigger fetch when currency changes or default dates
+  // Calculate default date range for the last week
   useEffect(() => {
-    fetchData(startDate, endDate);
-  }, [currencyPair]);
+    const end = formatISO(new Date(), { representation: "date" }); // Today's date
+    const start = formatISO(subDays(new Date(), 5), { representation: "date" }); // 7 days ago
+
+    setStartDate(start);
+    setEndDate(end);
+    fetchData(start, end); // Fetch last week's data
+  }, []); // Run once on component mount
+
+  // Update data when the currencyPair changes
+  useEffect(() => {
+    if (startDate && endDate) {
+      fetchData(startDate, endDate);
+    }
+  }, [currencyPair]); // Refetch data when currency changes
 
   // Handle user-selected dates
   const handleDateChange = (start: string, end: string) => {
@@ -66,7 +71,7 @@ const App = () => {
           {chartData.length > 0 ? (
             <CryptoChart data={chartData} />
           ) : (
-            <p className="text-center">Loading recent chart...</p>
+            <p className="text-center">Loading chart...</p>
           )}
         </div>
       </div>
