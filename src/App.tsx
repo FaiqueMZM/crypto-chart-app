@@ -8,6 +8,7 @@ import CurrencySelector from "./components/CurrencySelector";
 import DateRangePicker from "./components/DateRangePicker";
 import { toTimestamp } from "./utils/dateUtils";
 import "./App.css";
+import { subDays, formatISO } from "date-fns"; // To calculate recent dates
 
 const App = () => {
   const dispatch = useDispatch();
@@ -16,15 +17,21 @@ const App = () => {
   const [startDate, setStartDate] = useState<string | null>(null);
   const [endDate, setEndDate] = useState<string | null>(null);
 
-  // Fetch data based on currency and date range
-  const fetchData = async (start: string, end: string) => {
-    if (!start || !end) return; // Ensure both dates are set
+  // Fetch data based on currency and date range (or recent data if dates not set)
+  const fetchData = async (start: string | null, end: string | null) => {
+    let startTimestamp = start
+      ? toTimestamp(start)
+      : toTimestamp(formatISO(subDays(new Date(), 30)));
+    let endTimestamp = end
+      ? toTimestamp(end)
+      : toTimestamp(new Date().toISOString());
+
     try {
       const data = await fetchKlineData(
         currencyPair,
         "1d",
-        toTimestamp(start),
-        toTimestamp(end)
+        startTimestamp,
+        endTimestamp
       );
       setChartData(data);
       dispatch(setData(data));
@@ -33,14 +40,12 @@ const App = () => {
     }
   };
 
-  // Update chart when the currencyPair changes and dates are set
+  // Trigger fetch when currency changes or default dates
   useEffect(() => {
-    if (startDate && endDate) {
-      fetchData(startDate, endDate);
-    }
-  }, [currencyPair]); // Dependency on currencyPair
+    fetchData(startDate, endDate);
+  }, [currencyPair]);
 
-  // Update dates and fetch data when a new date range is selected
+  // Handle user-selected dates
   const handleDateChange = (start: string, end: string) => {
     setStartDate(start);
     setEndDate(end);
@@ -61,9 +66,7 @@ const App = () => {
           {chartData.length > 0 ? (
             <CryptoChart data={chartData} />
           ) : (
-            <p className="text-center">
-              No data available. Please select dates and currency.
-            </p>
+            <p className="text-center">Loading recent chart...</p>
           )}
         </div>
       </div>
