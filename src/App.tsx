@@ -36,7 +36,7 @@ const App = () => {
   // Calculate default date range for the last week
   useEffect(() => {
     const end = formatISO(new Date(), { representation: "date" }); // Today's date
-    const start = formatISO(subDays(new Date(), 5), { representation: "date" }); // 7 days ago
+    const start = formatISO(subDays(new Date(), 6), { representation: "date" }); // 6 days ago
 
     setStartDate(start);
     setEndDate(end);

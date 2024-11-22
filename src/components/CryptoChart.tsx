@@ -19,13 +19,15 @@ ChartJS.register(
 
 const CryptoChart = ({ data }: { data: any }) => {
   const chartData = {
-    labels: data.map((item: any) => new Date(item[0]).toLocaleDateString()),
+    labels: data.map((item: any) => new Date(item[0]).toLocaleDateString()), // Format date for X-axis
     datasets: [
       {
-        label: "Price",
-        data: data.map((item: any) => item[4]), // Closing price
+        label: "Closing Price",
+        data: data.map((item: any) => item[4]), // Closing price (assuming item[4] is the closing price)
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderWidth: 1.5,
+        pointRadius: 2,
       },
     ],
   };
@@ -33,58 +35,70 @@ const CryptoChart = ({ data }: { data: any }) => {
   const options: ChartOptions<"line"> = {
     responsive: true,
     plugins: {
-      tooltip: {
-        mode: "index",
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Chart.js Line Chart",
       },
     },
     layout: {
       padding: {
-        top: 10, // Minimal padding at the top
-        bottom: 10, // More padding at the bottom to give space to the X-axis labels
-        left: 10, // Minimal padding at the left
-        right: 10, // Minimal padding at the right
+        top: 10,
+        bottom: 10,
+        left: 10,
+        right: 10,
       },
     },
     scales: {
       x: {
         ticks: {
-          maxRotation: 45, // Prevent rotation of X-axis labels
-          minRotation: 0,
-          autoSkip: false, // Automatically skip some labels if crowded
+          autoSkip: false,
           font: {
-            size: 8, // Font size for X-axis labels
+            size: 8,
           },
         },
         grid: {
-          drawOnChartArea: true, // Remove gridlines from chart area
-          drawTicks: true, // Show ticks for X-axis
+          drawOnChartArea: true,
+          drawTicks: true,
         },
         title: {
           display: true,
-          text: "Dates", // Add label for X-axis
-          padding: 1, // Add space for the title
+          text: "Dates",
+          padding: 1,
+          font: {
+            size: 8,
+          },
         },
       },
       y: {
         ticks: {
           font: {
-            size: 8, // Font size for Y-axis labels
+            size: 8,
           },
         },
         grid: {
-          drawOnChartArea: true, // Keep gridlines for Y-axis
-          drawTicks: true, // Show ticks for Y-axis
+          drawOnChartArea: true,
+          drawTicks: true,
         },
         title: {
           display: true,
-          text: "Closing Price", // Add label for Y-axis
-          padding: 1, // Less space for Y-axis
+          text: "Closing Price",
+          padding: 1,
+          font: {
+            size: 8,
+          },
         },
       },
     },
   };
 
-  return <Line data={chartData} options={options} />;
+  return (
+    <div>
+      <Line data={chartData} options={options} />
+    </div>
+  );
 };
 
 export default CryptoChart;
