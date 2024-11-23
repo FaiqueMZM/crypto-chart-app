@@ -67,7 +67,7 @@ const App = () => {
           <CurrencySelector />
           <DateRangePicker onChange={handleDateChange} />
         </div>
-        <div className="shadow-sm p-4 bg-white border rounded-lg overflow-x-auto w-full">
+        <div className="shadow-sm p-4 border rounded-lg overflow-x-auto w-full">
           <div className="w-[1000px] mx-auto">
             {chartData.length > 0 ? (
               <CryptoChart data={chartData} />
