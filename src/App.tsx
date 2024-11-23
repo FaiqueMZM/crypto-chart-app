@@ -59,7 +59,7 @@ const App = () => {
 
   return (
     <div className="p-5 max-w-3xl mx-auto">
-      <div className="p-4">
+      <div>
         <h1 className="mb-5 text-2xl text-center">
           Crypto Currency Price Chart
         </h1>
