@@ -58,21 +58,23 @@ const App = () => {
   };
 
   return (
-    <div className="p-5 max-w-3xl mx-auto ">
+    <div className="p-5 max-w-3xl mx-auto">
       <div className="p-4">
-        <h1 className="mb-5 text-2xl mb5 text-center">
+        <h1 className="mb-5 text-2xl text-center">
           Crypto Currency Price Chart
         </h1>
-        <div className="justify-between flex flex-wrap mb-5">
+        <div className="flex flex-row justify-between gap-4 mb-5">
           <CurrencySelector />
           <DateRangePicker onChange={handleDateChange} />
         </div>
-        <div className="shadow-sm p-4 bg-white border rounded-lg overflow-x-auto w-full min-h-\[500px\]">
-          {chartData.length > 0 ? (
-            <CryptoChart data={chartData} />
-          ) : (
-            <p className="text-center">Loading chart...</p>
-          )}
+        <div className="shadow-sm p-4 bg-white border rounded-lg overflow-x-auto w-full">
+          <div className="w-[1000px] mx-auto">
+            {chartData.length > 0 ? (
+              <CryptoChart data={chartData} />
+            ) : (
+              <p className="text-center">Loading chart...</p>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -38,6 +38,7 @@ const CryptoChart = ({ data }: { data: any }) => {
 
   const options: ChartOptions<"line"> = {
     responsive: true,
+    maintainAspectRatio: false,
     interaction: {
       mode: "index",
       intersect: false,
@@ -47,7 +48,7 @@ const CryptoChart = ({ data }: { data: any }) => {
         position: "top",
         labels: {
           font: {
-            size: 8,
+            size: 12,
           },
         },
       },
@@ -55,7 +56,7 @@ const CryptoChart = ({ data }: { data: any }) => {
         display: true,
         text: "Closing Prices Over Time",
         font: {
-          size: 8,
+          size: 16,
         },
       },
       tooltip: {
@@ -66,10 +67,10 @@ const CryptoChart = ({ data }: { data: any }) => {
           },
         },
         bodyFont: {
-          size: 8,
+          size: 10,
         },
         titleFont: {
-          size: 8,
+          size: 12,
         },
       },
     },
@@ -91,7 +92,7 @@ const CryptoChart = ({ data }: { data: any }) => {
       x: {
         ticks: {
           font: {
-            size: 8,
+            size: 10,
           },
         },
         title: {
@@ -99,14 +100,14 @@ const CryptoChart = ({ data }: { data: any }) => {
           text: "Date",
           padding: 5,
           font: {
-            size: 8,
+            size: 12,
           },
         },
       },
       y: {
         ticks: {
           font: {
-            size: 8,
+            size: 10,
           },
         },
         title: {
@@ -114,7 +115,7 @@ const CryptoChart = ({ data }: { data: any }) => {
           text: "Closing Price",
           padding: 1,
           font: {
-            size: 8,
+            size: 12,
           },
         },
       },
