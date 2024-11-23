@@ -40,10 +40,10 @@ const App = () => {
 
     setStartDate(start);
     setEndDate(end);
-    fetchData(start, end); // Fetch last week's data
-  }, []); // Run once on component mount
+    fetchData(start, end);
+  }, []);
 
-  // Update data when the currencyPair changes
+  // Update data when the currency changes
   useEffect(() => {
     if (startDate && endDate) {
       fetchData(startDate, endDate);

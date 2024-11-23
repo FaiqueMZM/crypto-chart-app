@@ -27,7 +27,7 @@ const CryptoChart = ({ data }: { data: any }) => {
     datasets: [
       {
         label: "Closing Price",
-        data: data.map((item: any) => item[4]), // Closing price (assuming item[4] is the closing price)
+        data: data.map((item: any) => item[4]), // Closing price
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderWidth: 1.5,
@@ -38,6 +38,10 @@ const CryptoChart = ({ data }: { data: any }) => {
 
   const options: ChartOptions<"line"> = {
     responsive: true,
+    interaction: {
+      mode: "index",
+      intersect: false,
+    },
     plugins: {
       legend: {
         position: "top",
@@ -54,31 +58,46 @@ const CryptoChart = ({ data }: { data: any }) => {
           size: 8,
         },
       },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const price = parseFloat(context.raw as string).toFixed(2); // Y-axis value (price)
+            return `Closing Price: $${price}`;
+          },
+        },
+        bodyFont: {
+          size: 8,
+        },
+        titleFont: {
+          size: 8,
+        },
+      },
     },
     layout: {
       padding: {
-        top: 10,
-        bottom: 10,
-        left: 10,
-        right: 10,
+        // top: 10,
+        // bottom: 10,
+        // left: 10,
+        // right: 10,
+      },
+    },
+    elements: {
+      point: {
+        radius: 2,
+        hoverRadius: 5,
       },
     },
     scales: {
       x: {
         ticks: {
-          autoSkip: false,
           font: {
             size: 8,
           },
         },
-        grid: {
-          drawOnChartArea: true,
-          drawTicks: true,
-        },
         title: {
           display: true,
-          text: "Dates",
-          padding: 1,
+          text: "Date",
+          padding: 5,
           font: {
             size: 8,
           },
@@ -89,10 +108,6 @@ const CryptoChart = ({ data }: { data: any }) => {
           font: {
             size: 8,
           },
-        },
-        grid: {
-          drawOnChartArea: true,
-          drawTicks: true,
         },
         title: {
           display: true,
