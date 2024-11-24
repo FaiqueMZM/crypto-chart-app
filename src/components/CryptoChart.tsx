@@ -30,7 +30,7 @@ const CryptoChart = ({ data }: { data: any }) => {
         data: data.map((item: any) => item[4]), // Closing price
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderWidth: 1.5,
+        borderWidth: 3,
         pointRadius: 2,
       },
     ],

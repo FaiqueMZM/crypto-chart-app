@@ -8,7 +8,7 @@ import CurrencySelector from "./components/CurrencySelector";
 import DateRangePicker from "./components/DateRangePicker";
 import { toTimestamp } from "./utils/dateUtils";
 import "./App.css";
-import { subDays, formatISO } from "date-fns"; // To calculate recent dates
+import { subDays, formatISO } from "date-fns";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -17,8 +17,13 @@ const App = () => {
   const [startDate, setStartDate] = useState<string | null>(null);
   const [endDate, setEndDate] = useState<string | null>(null);
 
-  // Fetch data based on currency and date range
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // retrieve data based on currency and date range
   const fetchData = async (start: string, end: string) => {
+    setLoading(true);
+    setError(null); // Reset error before making a request
     try {
       const data = await fetchKlineData(
         currencyPair,
@@ -26,14 +31,19 @@ const App = () => {
         toTimestamp(start),
         toTimestamp(end)
       );
+      if (!data || data.length === 0) {
+        throw new Error("No data available for the selected range."); // invalid date range
+      }
       setChartData(data);
       dispatch(setData(data));
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    } catch (error: any) {
+      setError(error.message || "An unexpected error occurred.");
+      setChartData([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Calculate default date range for the last week
   useEffect(() => {
     const end = formatISO(new Date(), { representation: "date" }); // Today's date
     const start = formatISO(subDays(new Date(), 6), { representation: "date" }); // 6 days ago
@@ -43,14 +53,13 @@ const App = () => {
     fetchData(start, end);
   }, []);
 
-  // Update data when the currency changes
+  // update data when the currency changes
   useEffect(() => {
     if (startDate && endDate) {
       fetchData(startDate, endDate);
     }
-  }, [currencyPair]); // Refetch data when currency changes
+  }, [currencyPair]); // refetch data when currency changes
 
-  // Handle user-selected dates
   const handleDateChange = (start: string, end: string) => {
     setStartDate(start);
     setEndDate(end);
@@ -69,10 +78,14 @@ const App = () => {
         </div>
         <div className="shadow-sm p-4 border rounded-lg overflow-x-auto w-full">
           <div className="w-[1000px] mx-auto">
-            {chartData.length > 0 ? (
+            {loading ? (
+              <p className="text-center">Loading data...</p>
+            ) : error ? (
+              <p className="text-red-500">{error}</p>
+            ) : chartData.length > 0 ? (
               <CryptoChart data={chartData} />
             ) : (
-              <p className="text-center">Loading chart...</p>
+              <p className="text-center">No data available.</p>
             )}
           </div>
         </div>
