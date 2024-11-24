@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const BASE_URL = "https://api.binance.com/api/v3";
+const BASE_URL = "https://api.binance.com/api/v3"; //binance api endpoint
 
 export const fetchKlineData = async (
-  symbol: string,
+  symbol: string, // trading pair (BTC, ETH, LTC, XRP)
   interval: string,
   startTime: number,
   endTime: number

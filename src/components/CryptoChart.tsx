@@ -23,11 +23,11 @@ ChartJS.register(
 
 const CryptoChart = ({ data }: { data: any }) => {
   const chartData = {
-    labels: data.map((item: any) => new Date(item[0]).toLocaleDateString()), // Format date for X-axis
+    labels: data.map((item: any) => new Date(item[0]).toLocaleDateString()), // format date for x axis
     datasets: [
       {
         label: "Closing Price",
-        data: data.map((item: any) => item[4]), // Closing price
+        data: data.map((item: any) => item[4]), // closing price
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderWidth: 3,
@@ -62,8 +62,8 @@ const CryptoChart = ({ data }: { data: any }) => {
       tooltip: {
         callbacks: {
           label: function (context) {
-            const price = parseFloat(context.raw as string).toFixed(2); // Y-axis value (price)
-            return `Closing Price: $${price}`;
+            const price = parseFloat(context.raw as string).toFixed(2);
+            return `Closing Price: $${price}`; // tooltip popup
           },
         },
         bodyFont: {
@@ -124,7 +124,7 @@ const CryptoChart = ({ data }: { data: any }) => {
 
   return (
     <div>
-      <Line data={chartData} options={options} />
+      <Line data={chartData} options={options} /> // line chart
     </div>
   );
 };

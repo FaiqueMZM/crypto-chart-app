@@ -23,11 +23,11 @@ const App = () => {
   // retrieve data based on currency and date range
   const fetchData = async (start: string, end: string) => {
     setLoading(true);
-    setError(null); // Reset error before making a request
+    setError(null); // reset error before making a request
     try {
       const data = await fetchKlineData(
-        currencyPair,
-        "1d",
+        currencyPair, // BTCUSDT,ETHUSDT,....
+        "1d", // interval is 1 day
         toTimestamp(start),
         toTimestamp(end)
       );
@@ -45,7 +45,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    const end = formatISO(new Date(), { representation: "date" }); // Today's date
+    const end = formatISO(new Date(), { representation: "date" }); // todays date
     const start = formatISO(subDays(new Date(), 6), { representation: "date" }); // 6 days ago
 
     setStartDate(start);
