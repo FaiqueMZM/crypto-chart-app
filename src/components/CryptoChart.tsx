@@ -124,7 +124,7 @@ const CryptoChart = ({ data }: { data: any }) => {
 
   return (
     <div>
-      <Line data={chartData} options={options} /> // line chart
+      <Line data={chartData} options={options} />
     </div>
   );
 };
